@@ -1,5 +1,5 @@
 {
-    "name": "bugbulltech/sped-da",
+    "name": "bugbulltech/spedda",
     "type": "library",
     "description": "sped-da contêm as classes para criação dos documentos Sped.",
     "keywords": ["nfe", "sped", "nfephp", "Danfe", "Dacte", "CCe" ],
