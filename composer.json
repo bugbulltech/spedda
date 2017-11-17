@@ -1,22 +1,10 @@
 {
     "name": "bugbulltech/sped-da",
     "type": "library",
-    "description": "sped-da contêm as classes para criação dos documentos auxiliares referidos no projeto Sped.",
+    "description": "sped-da contêm as classes para criação dos documentos Sped.",
     "keywords": ["nfe", "sped", "nfephp", "Danfe", "Dacte", "CCe" ],
     "homepage": "https://github.com/nfephp-org/sped-da",
     "license": ["LGPLv3+", "GPLv3+", "MIT"],
-    "authors": [
-        {
-            "name": "Roberto L. Machado",
-            "email": "linux.rlm@gmail.com.br",
-            "homepage": "http://www.nfephp.org",
-            "role": "Developer"
-        },
-        {
-            "name": "Comunidade NFePHP",
-            "homepage": "https://github.com/nfephp-org/sped-da/graphs/contributors"
-        }
-    ],
     "require": {
         "php" : "~5.5|~7.0",
         "nfephp-org/posprint": "^0.1",
