@@ -91,7 +91,10 @@ class Dacte extends Common
     protected $siteDesenvolvedor;
     protected $nomeDesenvolvedor;
     protected $totPag;
+    protected $infDocAntPap;
+    protected $emiDocAnt;
     protected $idDocAntEle = [];
+    protected $idDocAntPap = array();
 
     /**
      * __construct
@@ -186,11 +189,14 @@ class Dacte extends Common
             $this->Comp = $this->dom->getElementsByTagName("Comp");
             $this->infNF = $this->dom->getElementsByTagName("infNF");
             $this->infNFe = $this->dom->getElementsByTagName("infNFe");
+            $this->infDocAntPap = $this->dom->getElementsByTagName("idDocAntPap");
+            $this->emiDocAnt = $this->dom->getElementsByTagName("emiDocAnt");
             $this->infOutros = $this->dom->getElementsByTagName("infOutros");
             $this->compl = $this->dom->getElementsByTagName("compl");
             $this->ICMS = $this->dom->getElementsByTagName("ICMS")->item(0);
             $this->ICMSSN = $this->dom->getElementsByTagName("ICMSSN")->item(0);
             $this->imp = $this->dom->getElementsByTagName("imp")->item(0);
+
 
             $vTrib = $this->pSimpleGetValue($this->imp, "vTotTrib");
             if (!is_numeric($vTrib)) {
@@ -426,6 +432,7 @@ class Dacte extends Common
             $r = $this->zImpostos($x, $y);
             $y += 13;
             $x = $xInic;
+            $r = $this->zDocAnt($x, $y);
             $r = $this->zDocOrig($x, $y);
             if ($this->modal == '1') {
                 if ($this->lota == 1) {
@@ -2139,6 +2146,99 @@ class Dacte extends Common
         return $chave;
     } //fim zGeraChaveAdicCont
 
+
+    /**
+     * zDocOrig
+     * Monta o campo com os documentos anteriores.
+     *
+     * @param  number $x Posição horizontal canto esquerdo
+     * @param  number $y Posição vertical canto superior
+     * @return number Posição vertical final
+     */
+    protected function zDocAnt($x = 0, $y = 0)
+    {
+
+      $oldX = $x;
+      $oldY = $y;
+      if ($this->orientacao == 'P') {
+          $maxW = $this->wPrint;
+      } else {
+          $maxW = $this->wPrint - $this->wCanhoto;
+      }
+      $w = $maxW;
+
+      // SE FOR RODOVIARIO ( BTR-SEMPRE SERÁ )
+      if ($this->modal == '1') {
+          // 0 - Não; 1 - Sim Será lotação quando houver um único conhecimento de transporte por veículo,
+          // ou combinação veicular, e por viagem
+          $h = $this->lota == 1 ? 35 : 53;
+      } elseif ($this->modal == '3') {
+          $h = 37.6;
+      } else {
+          $h = 35;
+      }
+
+      $texto = 'DOCUMENTOS ANTERIORES';
+      $aFont = $this->formatPadrao;
+      $this->pTextBox($x, $y, $w, $h, $texto, $aFont, 'T', 'C', 1, '');
+
+      $y += 3.4;
+      $this->pdf->Line($x, $y, $w + 1, $y);
+
+      $this->pTextBox($x, $y, $w * 0.30, $h, 'TIPO DO DOC', $aFont, 'T', 'L', 0, '');
+      $x += $w * 0.32;
+      $this->pTextBox($x, $y, $w * 0.30, $h, 'CNPJ / CPF EMITENTE', $aFont, 'T', 'L', 0, '');
+      $x += $w * 0.32;
+      $this->pTextBox($x, $y, $w * 0.30, $h, 'SÉRIE / NÚMERO DO DOC', $aFont, 'T', 'L', 0, '');
+
+      $y += 2.5;
+      $x = 1;
+      $auxY = $y;
+      // Documentos Anteriores
+          foreach ($this->infDocAntPap as $k => $d) {
+            $x = 1;
+          $texto = $this->infDocAntPap->item($k)->getElementsByTagName('tpDoc')->item(0)->nodeValue;
+          switch ($texto) {
+            case '13':
+              $texto = '13 - BL (BILL OF LANDING)';
+              break;
+            case '12':
+              $texto = '12 - TIF (TRANSPORTE INTERNACIONAL FERROVIÁRIO)';
+              break;
+            case '11':
+              $texto = '11 - CONHECIMENTO AVULSO';
+              break;
+            case '10':
+              $texto = '10 - CONHECIMENTO - CARTA DE PORTE INTERNACIONAL';
+              break;
+            case '09':
+              $texto = '09 - CONHECIMENTO AÉREO INTERNACIONAL';
+              break;
+            case '08':
+              $texto = '08 - DTA (DESPACHO DE TRÂNSITO ADUANEIRO)';
+              break;
+            case '07':
+              $texto = '07 - ATRE';
+              break;
+          }
+          $aFont = $this->formatPadrao;
+          $this->pTextBox($x, $auxY, $w * 0.30, $h, $texto, $aFont, 'T', 'L', 0, '');
+          $x += $w * 0.32;
+          $aFont = $this->formatPadrao;
+          $texto = $this->zFormatCNPJCPF($this->emiDocAnt->item(0));
+          $this->pTextBox($x, $auxY, $w * 0.30, $h, $texto, $aFont, 'T', 'L', 0, '');
+          $x += $w * 0.32;
+          $aFont = $this->formatPadrao;
+          $texto = $this->infDocAntPap->item($k)->getElementsByTagName('serie')->item(0)->nodeValue;
+          $texto = $texto . ' / ' . $this->infDocAntPap->item($k)->getElementsByTagName('nDoc')->item(0)->nodeValue;
+          $this->pTextBox($x, $auxY, $w * 0.30, $h, $texto, $aFont, 'T', 'L', 0, '');
+          $auxY += 2.5;
+        //  $this->arrayNFe[] = $chaveNFe;
+      }
+
+
+    }
+
     /**
      * zDocOrig
      * Monta o campo com os documentos originarios.
@@ -2149,6 +2249,7 @@ class Dacte extends Common
      */
     protected function zDocOrig($x = 0, $y = 0)
     {
+        $y = $y+15;
         $oldX = $x;
         $oldY = $y;
         if ($this->orientacao == 'P') {
@@ -2162,12 +2263,15 @@ class Dacte extends Common
         if ($this->modal == '1') {
             // 0 - Não; 1 - Sim Será lotação quando houver um único conhecimento de transporte por veículo,
             // ou combinação veicular, e por viagem
-            $h = $this->lota == 1 ? 35 : 53;
+            $h = $this->lota == 1 ? 35 : 37.6;
         } elseif ($this->modal == '3') {
             $h = 37.6;
         } else {
             $h = 35;
         }
+
+
+
         $texto = 'DOCUMENTOS ORIGINÁRIOS';
         $aFont = $this->formatPadrao;
         $this->pTextBox($x, $y, $w, $h, $texto, $aFont, 'T', 'C', 1, '');
@@ -2197,7 +2301,7 @@ class Dacte extends Common
             if ($this->lota == 1) {
                 $this->pdf->Line($x, $y, $x, $y + 31.5); // TESTE
             } else {
-                $this->pdf->Line($x, $y, $x, $y + 49.5); // TESTE
+                $this->pdf->Line($x, $y, $x, $y + 34.1); // TESTE
             }
         } elseif ($this->modal == '3') {
             $this->pdf->Line($x, $y, $x, $y + 34.1);
@@ -2253,6 +2357,9 @@ class Dacte extends Common
             $this->pTextBox($auxX, $yIniDados, $w * 0.13, $h, $texto, $aFont, 'T', 'L', 0, '');
             $auxX += $w * 0.15;
         }
+
+
+
 
         foreach ($this->infNFe as $k => $d) {
             $chaveNFe = $this->infNFe->item($k)->getElementsByTagName('chave')->item(0)->nodeValue;
