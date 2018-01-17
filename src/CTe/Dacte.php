@@ -1757,7 +1757,59 @@ class Dacte extends Common
             'font' => $this->fontePadrao,
             'size' => 7,
             'style' => 'B');
-        $this->pTextBox($x+2, $y + 3, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+        $this->pTextBox($x+2, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(2),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+20, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(3),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+20, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(1),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        //$texto .= ' ' . $this->zUnidade($this->pSimpleGetValue($this->infQ->item(0), "cUnid"));
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+2, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
         $x = $w * 0.12;
         $this->pdf->Line($x+13.5, $y, $x+13.5, $y + 9);
         $texto = 'PESO BASE CÁLCULO (KG)';
@@ -1779,7 +1831,59 @@ class Dacte extends Common
             'font' => $this->fontePadrao,
             'size' => 7,
             'style' => 'B');
-        $this->pTextBox($x+17, $y + 3, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+        $this->pTextBox($x+17, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(1),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+17, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(2),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+30, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(3),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+30, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+
         $x = $w * 0.24;
         $this->pdf->Line($x+25, $y, $x+25, $y + 9);
         $texto = 'PESO AFERIDO (KG)';
@@ -1801,7 +1905,58 @@ class Dacte extends Common
             'font' => $this->fontePadrao,
             'size' => 7,
             'style' => 'B');
-        $this->pTextBox($x+28, $y + 3, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+        $this->pTextBox($x+28, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(1),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+28, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(2),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+45, $y + 2, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
+        $texto = number_format(
+            $this->pSimpleGetValue(
+                $this->infQ->item(3),
+                "qCarga"
+            ),
+            3,
+            ",",
+            "."
+        );
+        $aFont = array(
+            'font' => $this->fontePadrao,
+            'size' => 7,
+            'style' => 'B');
+        $this->pTextBox($x+45, $y + 5, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
+
+
         $x = $w * 0.36;
         $this->pdf->Line($x+41.3, $y, $x+41.3, $y + 9);
         $texto = 'CUBAGEM(M3)';
